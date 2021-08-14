@@ -13,7 +13,7 @@ namespace NexBuyECommerceAPI.Interfaces
 
         Order GetOrderById(int orderId);
 
-        List<Order> GetOrdersForTheDay();
+       // List<Order> GetOrdersForTheDay();
 
         List<Order> GetOrdersForTheWeek();
 

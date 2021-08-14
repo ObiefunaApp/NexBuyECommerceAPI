@@ -47,10 +47,10 @@ namespace NexBuyECommerceAPI.Services
             return _dbContext.Orders.FirstOrDefault(order => order.OrderId == orderId);
         }
 
-        public List<Order> GetOrdersForTheDay()
-        {
-            return _dbContext.Orders.Include(order => order.OrderItems).Where(order => DbFunctions.TruncateTime(order.CreatedAt) == DbFunctions.TruncateTime(DateTime.Now)).ToList();
-        }
+        //public List<Order> GetOrdersForTheDay()
+        //{
+        //    return _dbContext.Orders.Include(order => order.OrderItems).Where(order => DbFunctions.TruncateTime(order.CreatedAt) == DbFunctions.TruncateTime(DateTime.Now)).ToList();
+        //}
 
         public List<Order> GetOrdersForTheMonth()
         {

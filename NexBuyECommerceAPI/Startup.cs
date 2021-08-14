@@ -1,17 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using NexBuyECommerceAPI.DataContext;
+using NexBuyECommerceAPI.ExtensionMethods;
+using AutoMapper;
+
+using Microsoft.AspNetCore.Http;
+
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+
+using Newtonsoft.Json.Serialization;
+
 
 namespace NexBuyECommerceAPI
 {
@@ -24,18 +38,17 @@ namespace NexBuyECommerceAPI
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
-           // services.AddDbContext<ApplicationContext>();
-
             services.AddDbContext<ApplicationContext>(option =>
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                 .AddEntityFrameworkStores<ApplicationContext>();
+            services.AddScoped<DbContext, ApplicationContext>();
 
 
             services.Configure<MvcOptions>(config =>
@@ -47,7 +60,9 @@ namespace NexBuyECommerceAPI
                 }
             });
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
+
+
             services.AddEntityServices();
 
             services.AddControllers(setupAction =>
@@ -58,11 +73,13 @@ namespace NexBuyECommerceAPI
             services.AddSwaggerGenNewtonsoftSupport();
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new OpenApiInfo { Title = "Library Service Api" });
+                config.SwaggerDoc("v1", new OpenApiInfo { Title = "Nexbuy Service Api" });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                config.IncludeXmlComments(xmlPath);
+                //config.IncludeXmlComments(xmlPath);
             });
+
+
 
         }
 
@@ -74,9 +91,22 @@ namespace NexBuyECommerceAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Nexbuy Service Api");
+                config.RoutePrefix = string.Empty;
+            });
+
+
+           // app.UseAccessTokenValidator();
+
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using NexBuyECommerceAPI.Entities;
+using NexBuyECommerceAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,12 +11,12 @@ namespace NexBuyECommerceAPI.Interfaces
     public interface IProfileService
     {
 
-        void EditProfile(ApplicationUser user, Cashier Cashier = null, StoreManager storeManager = null);
-        List<ApplicationUser> GetAllUsers();
+        void EditProfile(IdentityUser user, Cashier Cashier = null, StoreManager storeManager = null);
+        List<IdentityUser> GetAllUsers();
 
-        Task<ApplicationUser> ValidateUser(string userId);
+        Task<IdentityUser> ValidateUser(string userId);
 
-        Task<ApplicationUser> ChangeUserRole(MockViewModel updateUserRoleViewModel);
+        Task<IdentityUser> ChangeUserRole(MockViewModel updateUserRoleViewModel);
 
         Task RemoveUser(string userId);
 

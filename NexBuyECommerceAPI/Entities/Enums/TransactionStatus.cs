@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace NexBuyECommerceAPI.Entities.Enums
 {
-    public class TransactionStatus
+    public enum TransactionStatus
     {
+
+        PENDING, SUCCESSFULL, FAILED
     }
+
 }

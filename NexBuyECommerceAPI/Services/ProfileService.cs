@@ -1,4 +1,6 @@
-﻿using NexBuyECommerceAPI.DataContext;
+﻿using Microsoft.AspNetCore.Identity;
+using NexBuyECommerceAPI.DataContext;
+using NexBuyECommerceAPI.Entities;
 using NexBuyECommerceAPI.Interfaces;
 using NexBuyECommerceAPI.Models;
 using System;
@@ -17,17 +19,17 @@ namespace NexBuyECommerceAPI.Services
 
         }
 
-        public Task<ApplicationUser> ChangeUserRole(MockViewModel updateUserRoleViewModel)
+        public Task<IdentityUser> ChangeUserRole(MockViewModel updateUserRoleViewModel)
         {
             throw new NotImplementedException();
         }
 
-        public void EditProfile(ApplicationUser user, Cashier Cashier = null, StoreManager storeManager = null)
+        public void EditProfile(IdentityUser user, Cashier Cashier = null, StoreManager storeManager = null)
         {
             throw new NotImplementedException();
         }
 
-        public List<ApplicationUser> GetAllUsers()
+        public List<IdentityUser> GetAllUsers()
         {
             throw new NotImplementedException();
         }
@@ -37,7 +39,7 @@ namespace NexBuyECommerceAPI.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApplicationUser> ValidateUser(string userId)
+        public Task<IdentityUser> ValidateUser(string userId)
         {
             throw new NotImplementedException();
         }

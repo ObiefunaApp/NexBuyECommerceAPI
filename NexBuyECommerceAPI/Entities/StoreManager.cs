@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using NexBuyECommerceAPI.Entities.Enums;
+﻿//using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace NexBuyECommerceAPI.Entities
 {
-    public class ShoppingCart 
+    public class StoreManager
     {
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public List<ShoppingCartItem> ProductCartItems { get; set; }
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
-        public CartStatus CartStatus { get; set; } = CartStatus.ACTIVE;
         public string ApplicationUserId { get; set; }
         public IdentityUser ApplicationUser { get; set; }
 

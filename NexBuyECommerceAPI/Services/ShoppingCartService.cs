@@ -14,11 +14,12 @@ namespace NexBuyECommerceAPI.Services
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly ApplicationContext _dbContext;
-        private readonly UserManager<>;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ShoppingCartService(ApplicationContext context)
+        public ShoppingCartService(ApplicationContext context, UserManager<IdentityUser> userManager)
         {
             _dbContext = context;
+            _userManager = userManager;
         }
 
         public void AddToCart(Product Product, string userId, int totalAmountOfPrescribedProducts = 0, int amount = 1)
@@ -56,7 +57,7 @@ namespace NexBuyECommerceAPI.Services
 
         public ShoppingCart CreateCart(string userId)
         {
-            var user = UserManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == userId);
+            var user = _userManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == userId);
             var cart = new ShoppingCart()
             {
                 ApplicationUser = user,
@@ -73,7 +74,7 @@ namespace NexBuyECommerceAPI.Services
 
         public ShoppingCart GetCart(string userId, CartStatus cartStatus)
         {
-            var user = userManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == userId);
+            var user = _userManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == userId);
 
             if (user != null)
                 return _dbContext.ShoppingCarts.Include(cart => cart.ProductCartItems)
@@ -84,7 +85,7 @@ namespace NexBuyECommerceAPI.Services
 
         public Product GetProductById(int id)
         {
-            var Product = _dbContext.Products.FirstOrDefault(x => x.Id == Id);
+            var Product = _dbContext.Products.FirstOrDefault(x => x.Id == id);
             return Product;
         }
 

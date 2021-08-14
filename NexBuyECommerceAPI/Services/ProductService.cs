@@ -3,6 +3,7 @@ using NexBuyECommerceAPI.DataContext;
 using NexBuyECommerceAPI.Entities;
 using NexBuyECommerceAPI.Entities.Enums;
 using NexBuyECommerceAPI.Interfaces;
+using NexBuyECommerceAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,9 +59,9 @@ namespace NexBuyECommerceAPI.Services
             return result ?? null;
         }
 
-        public List<Product> GetAllExpiredProducts()
+        public async Task<PagedList<Product>> GetAllExpiredProducts()
         {
-            var Products = GetAllProducts();
+            var Products = await GetAllProducts();
             var expiredProducts = new List<Product>();
             Products.ForEach(Product =>
             {
@@ -69,12 +70,12 @@ namespace NexBuyECommerceAPI.Services
                     expiredProducts.Add(Product);
                 }
             });
-            return expiredProducts;
+            return (PagedList<Product>)expiredProducts;
         }
 
-        public List<Product> GetAllExpiringProducts(TimeFrame timeFrame)
+        public async Task<PagedList<Product>> GetAllExpiringProducts(TimeFrame timeFrame)
         {
-            var Products = GetAllProducts();
+            var Products = await GetAllProducts();
             var expiringProducts = new List<Product>();
             var today = DateTime.Now;
             switch (timeFrame)
@@ -107,28 +108,31 @@ namespace NexBuyECommerceAPI.Services
                     }
             }
 
-            return expiringProducts;
+            return (PagedList<Product>)expiringProducts;
         }
 
-        public List<Product> GetAllProducts()
+        public async Task<PagedList<Product>> GetAllProducts()
         {
-           var result = _dbContext.Products.Include(d => d.ProductCategory).ToList();
-            return result;
+           var result = await _dbContext.Products.Include(d => d.ProductCategory).ToListAsync();
+            return (PagedList<Product>)result;
         }
 
-        public List<Product> GetAvailableProductFilter(string searchQuery)
+        public async Task<PagedList<Product>> GetAvailableProductFilter(string searchQuery)
         {
             var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower();
+            var res = await GetAvailableProducts();
             if (queries == null)
             {
-                return GetAvailableProducts();
+                return res;
             }
-            return GetAvailableProducts().Where(item => queries.Any(query => (item.ProductName.ToLower().Contains(query)))).ToList();
+            var result = res.Where(item => queries.Any(query => (item.ProductName.ToLower().Contains(query)))).ToList();
+
+            return (PagedList<Product>)result;
         }
 
-        public List<Product> GetAvailableProducts()
+        public async Task<PagedList<Product>> GetAvailableProducts()
         {
-            var Products = GetAllProducts();
+            var Products = await GetAllProducts();
             var availableProducts = new List<Product>();
             Products.ForEach(Product =>
             {
@@ -141,19 +145,20 @@ namespace NexBuyECommerceAPI.Services
                 }
             }
             );
-            return availableProducts;
+
+            return (PagedList<Product>)availableProducts;
         }
 
         public Product GetAvailableProductsById(int id)
         {
-            var Product = GetAvailableProducts().Find(d => d.Id == id);
+            var Product = GetAvailableProducts().Result.Find(d => d.Id == id);
 
             return Product ?? null;
         }
 
-        public List<Product> GetOutOfStockProducts()
+        public async Task<PagedList<Product>> GetOutOfStockProducts()
         {
-            var Products = GetAllProducts();
+            var Products = await GetAllProducts();
             var OutOfStockProducts = new List<Product>();
             Products.ForEach(Product =>
             {
@@ -162,7 +167,7 @@ namespace NexBuyECommerceAPI.Services
                     OutOfStockProducts.Add(Product);
                 }
             });
-            return OutOfStockProducts;
+            return (PagedList<Product>)OutOfStockProducts;
         }
 
         public Product GetProductById(int id)
@@ -175,9 +180,19 @@ namespace NexBuyECommerceAPI.Services
             return result;
         }
 
-        public List<Product> GetProductsRunningOutOfStock()
+        public ProductCategory GetProductCategoryById(int id)
         {
-            var Products = GetAllProducts();
+            var result = _dbContext.ProductCategories.FirstOrDefault(Product => Product.Id == id);
+
+            if (result == null)
+                return null;
+
+            return result;
+        }
+
+        public async Task<PagedList<Product>> GetProductsRunningOutOfStock()
+        {
+            var Products = await GetAllProducts();
             var ProductsRunningOutOfStock = new List<Product>();
             Products.ForEach(Product =>
             {
@@ -186,12 +201,7 @@ namespace NexBuyECommerceAPI.Services
                     ProductsRunningOutOfStock.Add(Product);
                 }
             });
-            return ProductsRunningOutOfStock;
-        }
-
-        public Task NotifyProductExpirationAsync()
-        {
-            throw new NotImplementedException();
+            return (PagedList<Product>)ProductsRunningOutOfStock;
         }
 
         public bool RemoveProduct(int id)

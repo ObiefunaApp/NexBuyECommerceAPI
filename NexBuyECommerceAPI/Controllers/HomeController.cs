@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NexBuyECommerceAPI.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,36 +13,24 @@ namespace NexBuyECommerceAPI.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        // GET: api/<ValuesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        public HomeController()
         {
-            return new string[] { "value1", "value2" };
+
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet(Name = "GetRoot")]
+        public IActionResult GetRoot()
         {
-        }
+            var links = new List<LinkDto>
+            {
+                new LinkDto(Url.Link("GetRoot", new { }), "self", "GET"),
+                new LinkDto(Url.Link("GetAllProducts", new { }), "authors", "GET"),
+                new LinkDto(Url.Link("GetSalesReport", new { }), "books", "GET")
+            };
+            return Ok(links);
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

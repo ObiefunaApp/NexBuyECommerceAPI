@@ -1,5 +1,6 @@
 ﻿using NexBuyECommerceAPI.Entities;
 using NexBuyECommerceAPI.Entities.Enums;
+using NexBuyECommerceAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,13 @@ namespace NexBuyECommerceAPI.Interfaces
     public interface IProductService
     {
 
-        List<Product> GetAllProducts();
-        List<Product> GetAllExpiringProducts(TimeFrame timeFrame);
-        List<Product> GetAllExpiredProducts();
-        List<Product> GetProductsRunningOutOfStock();
-        List<Product> GetOutOfStockProducts();
+        Task<PagedList<Product>> GetAllProducts();
+        Task<PagedList<Product>> GetAllExpiringProducts(TimeFrame timeFrame);
+        Task<PagedList<Product>> GetAllExpiredProducts();
+        Task<PagedList<Product>> GetProductsRunningOutOfStock();
+        Task<PagedList<Product>> GetOutOfStockProducts();
         Product GetProductById(int id);
+        ProductCategory GetProductCategoryById(int id);
         List<ProductCategory> AllCategories();
         void AddProduct(Product Product);
         bool RemoveProduct(int id);
@@ -25,16 +27,15 @@ namespace NexBuyECommerceAPI.Interfaces
         void AddProductCategory(ProductCategory category);
         bool RemoveProductCategory(int id);
 
-        List<Product> GetAvailableProducts();
+        Task<PagedList<Product>> GetAvailableProducts();
         Product GetAvailableProductsById(int id);
 
-        List<Product> GetAvailableProductFilter(string searchQuery);
+        Task<PagedList<Product>> GetAvailableProductFilter(string searchQuery);
 
         void UpdateProduct(Product Product);
 
         ProductCategory EditProductCategory(int id);
         void UpdateProductCategory(ProductCategory category);
-        Task NotifyProductExpirationAsync();
 
     }
 }

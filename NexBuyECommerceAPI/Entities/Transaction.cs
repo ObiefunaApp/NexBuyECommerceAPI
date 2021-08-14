@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NexBuyECommerceAPI.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
+//using System.Transactions;
 
 namespace NexBuyECommerceAPI.Entities
 {
