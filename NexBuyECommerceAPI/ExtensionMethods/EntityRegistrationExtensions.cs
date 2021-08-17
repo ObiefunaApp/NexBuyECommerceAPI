@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 
 namespace NexBuyECommerceAPI.ExtensionMethods
@@ -23,7 +24,7 @@ namespace NexBuyECommerceAPI.ExtensionMethods
                 configuration = serviceProvider.GetService<IConfiguration>();
             }
 
-           // services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
 
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();

@@ -26,7 +26,8 @@ namespace NexBuyECommerceAPI.Controllers
             //_ProductService = ProductService;
         }
 
-        
+
+        [HttpGet("Index", Name = "GetCart")]
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
@@ -40,12 +41,17 @@ namespace NexBuyECommerceAPI.Controllers
             };
             return Ok(ProductCartViewModel);
         }
+
+
+        [HttpGet("ProductDetails", Name = "View")]
         public ActionResult GetProduct(int id)
         {
             var Product = _ShoppingCartService.GetProductById(id);
             return Ok(Product);
         }
 
+
+        [HttpPost("AddToCart", Name = "AddToShoppingCart")]
         public ActionResult AddToShoppingCart(int id)
         {
             var userId = User.Identity.GetUserId();
@@ -71,6 +77,7 @@ namespace NexBuyECommerceAPI.Controllers
         }
 
 
+        [HttpDelete("DeleteProductFromCart", Name = "Remove")]
         public ActionResult RemoveFromShoppingCart(int id)
         {
             try
@@ -93,6 +100,8 @@ namespace NexBuyECommerceAPI.Controllers
             }
         }
 
+
+        [HttpGet("Clear", Name = "ClearCart")]
         public ActionResult RemoveAllCart()
         {
             var userId = User.Identity.GetUserId();

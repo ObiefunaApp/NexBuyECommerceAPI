@@ -119,7 +119,7 @@ namespace NexBuyECommerceAPI.Controllers
 			return Ok(ProductsearchVM);
 		}
 
-
+		[HttpPost("UpdateProduct", Name = "UpdatePostProducts")]
 		public ActionResult UpdateProduct(int id)
 		{
 
@@ -132,6 +132,7 @@ namespace NexBuyECommerceAPI.Controllers
 			return Ok(ProductInDb);
 		}
 
+		[HttpPost("UpsertProduct", Name = "SaveProducts")]
 		public ActionResult SaveProduct(ProductViewModel product)
 		{
 			if (!ModelState.IsValid)
@@ -218,7 +219,7 @@ namespace NexBuyECommerceAPI.Controllers
         }
 
       
-        [HttpPost]
+        [HttpPost("Upsert", Name ="SaveProductCategories")]
 		public ActionResult SaveProductCategory(ProductCategoryViewModel category)
 		{
 			if (ModelState.IsValid)
@@ -243,7 +244,7 @@ namespace NexBuyECommerceAPI.Controllers
 			return BadRequest(new { message = "Failed" });
 		}
 
-		
+		[HttpGet("ProductCategoryDetails", Name = "ViewProductCategory")]
 		public ActionResult ViewProductCategory(int id)
 		{
 			var category = _ProductService.GetProductCategoryById(id);
@@ -251,6 +252,7 @@ namespace NexBuyECommerceAPI.Controllers
 				return Ok(category);
 		}
 
+		[HttpDelete("DeleteProduct", Name = "RemoveProduct")]
 		public ActionResult RemoveProduct(int id)
 		{
 			try
@@ -279,6 +281,7 @@ namespace NexBuyECommerceAPI.Controllers
 			return Ok(_ProductService.AllCategories());
 		}
 
+		[HttpDelete("DeleteProductCategory", Name = "RemoveProductCategory")]
 		public ActionResult RemoveProductCategory(int id)
 		{
 			var removeCategory = _ProductService.RemoveProductCategory(id);
@@ -290,7 +293,7 @@ namespace NexBuyECommerceAPI.Controllers
 		}
 
 
-		[HttpPost]
+		[HttpPost("UpdateProductCategory", Name = "UpdatePostProductCategories")]
 		public ActionResult UpdateProductCategory(EditCategoryViewModel category)
 		{
 

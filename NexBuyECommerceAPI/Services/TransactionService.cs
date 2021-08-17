@@ -38,7 +38,7 @@ namespace NexBuyECommerceAPI.Services
                     Order = order,
                     OrderId = orderId,
                     ReferenceNumber = txRef,
-                    GeneratedReferenceNumber = generatedReference,
+                    GeneratedReferenceNumber = generatedReference
                 };
                 
                   

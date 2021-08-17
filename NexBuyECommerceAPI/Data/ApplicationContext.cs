@@ -13,11 +13,6 @@ namespace NexBuyECommerceAPI.DataContext
     public class ApplicationContext : IdentityDbContext<IdentityUser>
     {
 
-        public ApplicationContext()
-        {
-
-        }
-
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
 
@@ -36,18 +31,18 @@ namespace NexBuyECommerceAPI.DataContext
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=NexBuyECommerceDb;Trusted_Connection=True;MultipleActiveResultSets=true");
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=NexBuyECommerceDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+        //    }
+        //}
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-        }
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //}
 
 
         //public class ApplicationUser : IdentityUser

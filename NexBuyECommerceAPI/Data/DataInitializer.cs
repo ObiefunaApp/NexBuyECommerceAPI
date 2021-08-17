@@ -20,7 +20,7 @@ namespace NexBuyECommerceAPI.Data
             //  to avoid creating duplicate seed data.
 
             SeedAdmin(_userManager, _roleManager);
-            SeedCategory();
+          //  SeedCategory();
             SeedRoles(_roleManager);
         }
 
@@ -35,8 +35,8 @@ namespace NexBuyECommerceAPI.Data
                 {
                     UserName = "Admin@admin.com",
                     Email = "Admin@admin.com",
-                    EmailConfirmed = true,
-                    // TwoFactorEnabled = true,
+                    EmailConfirmed = true
+                  
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "Admin1234_").Result;
@@ -71,24 +71,24 @@ namespace NexBuyECommerceAPI.Data
                 roleManager.CreateAsync(storeManager);
             }
         }
-        public static void SeedCategory()
-        {
-            ApplicationContext context = new ApplicationContext();
+        //public static void SeedCategory()
+        //{
+        //    ApplicationContext context = new ApplicationContext();
 
-            var ProductCategory = new List<ProductCategory>
-            {
-                new ProductCategory() { CategoryName = "Perishable" },
-                new ProductCategory() { CategoryName = "Kitchen" },
-                new ProductCategory() { CategoryName = "Furniture" },
-                new ProductCategory() { CategoryName = "Electronic" },
-                new ProductCategory() { CategoryName = "Stationary" },
-                new ProductCategory() { CategoryName = "Others" }
-            };
+        //    var ProductCategory = new List<ProductCategory>
+        //    {
+        //        new ProductCategory() { CategoryName = "Perishable" },
+        //        new ProductCategory() { CategoryName = "Kitchen" },
+        //        new ProductCategory() { CategoryName = "Furniture" },
+        //        new ProductCategory() { CategoryName = "Electronic" },
+        //        new ProductCategory() { CategoryName = "Stationary" },
+        //        new ProductCategory() { CategoryName = "Others" }
+        //    };
 
 
-            context.ProductCategories.AddRange(ProductCategory);
-            context.SaveChanges();
-        }
+        //    context.ProductCategories.AddRange(ProductCategory);
+        //    context.SaveChanges();
+        //}
 
     }
 

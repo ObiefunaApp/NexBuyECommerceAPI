@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NexBuyECommerceAPI.DataContext;
 using NexBuyECommerceAPI.ExtensionMethods;
-using AutoMapper;
+
 
 using Microsoft.AspNetCore.Http;
 
@@ -59,11 +59,14 @@ namespace NexBuyECommerceAPI
                     newtonSoftJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.hateoad+json");
                 }
             });
-
             
 
 
             services.AddEntityServices();
+
+            services.AddCors();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers(setupAction =>
             {
@@ -98,13 +101,15 @@ namespace NexBuyECommerceAPI
                 config.RoutePrefix = string.Empty;
             });
 
+            // app.UseAccessTokenValidator();
 
-           // app.UseAccessTokenValidator();
-
+           
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
 

@@ -26,6 +26,7 @@ namespace NexBuyECommerceAPI.Controllers
         }
 
         // GET
+        [HttpPost("Index", Name = "GetReport")]
         public ActionResult Index(TimeFrame timeFrame)
         {
             var report = _mapper.Map<ReportViewModel>(_reportService.CreateReport(timeFrame));
